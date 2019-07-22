@@ -76,9 +76,9 @@ withdraw.addEventListener('click', function() {
   var user_address = web3.eth.accounts[0]
 
   web3.eth.sendTransaction({
-    to: user_address,
-    from: MY_ADDRESS,
-    value: web3.toWei('0.01', 'ether'),
+    to: MY_ADDRESS,
+    from: user_address,
+    value: web3.toWei('0.00', 'ether'),
   }, function (err, transactionHash) {
     if (err) return renderMessage('There was a problem!: ' + err.message)
 
