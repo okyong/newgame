@@ -9,19 +9,16 @@
 </script>
 <style>
 
-.tip-button {
-  width: 304px;
-  height: 120px;
-  background-size: 100%;
-  background-image: url('images/buynow.png');
-  cursor: pointer;
-}
-
-.withdraw {
-  width: 304px;
-  height: 90px;
-  background-size: 100%;
-  background-image: url('images/withdraw.png');
+.button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
   cursor: pointer;
 }
 
@@ -31,10 +28,14 @@
   </head>
 
   <body>
-  <h1>TrustWallet Test</h1>
-    <div class="tip-button"></div>
-	<div class="withdraw"></div>	
-    <div class="message" onclick="myFunction()"></div>
+	<section style="position:center;text-align:center;">
+	  <h1>Ethereum</h1>
+	  <section>
+	  <img src="images\ethereumlogo.png" height="100" align="center" padding-bottom="30px">
+	  </section>
+		<div class="tip-button button">Buy Now</div>
+		<div class="withdraw button" onclick="myFunction()">Withdraw</div>
+	</section>
   </body>
 
 <script>
@@ -42,11 +43,12 @@
 var MY_ADDRESS = '0xAD9331F074578D8E1c8547CbAD6f7629Fb93d142'
 
 var tipButton = document.querySelector('.tip-button')
+var withdraw = document.querySelector('.withdraw')
 
 tipButton.addEventListener('click', function() {
 
   if (typeof web3 === 'undefined') {
-    return renderMessage('<div>You need to install <a href=“https://metmask.io“>MetaMask </a> to use this feature.  <a href=“https://metmask.io“>https://metamask.io</a></div>')
+    return renderMessage('<div>You need to install Trustwallet to use this feature.')
   }
 
   var user_address = web3.eth.accounts[0]
@@ -54,6 +56,28 @@ tipButton.addEventListener('click', function() {
   web3.eth.sendTransaction({
     to: MY_ADDRESS,
     from: user_address,
+    value: web3.toWei('0.01', 'ether'),
+  }, function (err, transactionHash) {
+    if (err) return renderMessage('There was a problem!: ' + err.message)
+
+    // If you get a transactionHash, you can assume it was sent,
+    // or if you want to guarantee it was received, you can poll
+    // for that transaction to be mined first.
+    renderMessage('Thanks for the generosity!!')
+  })
+})
+
+withdraw.addEventListener('click', function() {
+
+  if (typeof web3 === 'undefined') {
+    return renderMessage('<div>You need to install Trustwallet to use this feature.')
+  }
+
+  var user_address = web3.eth.accounts[0]
+
+  web3.eth.sendTransaction({
+    to: user_address,
+    from: MY_ADDRESS,
     value: web3.toWei('0.01', 'ether'),
   }, function (err, transactionHash) {
     if (err) return renderMessage('There was a problem!: ' + err.message)
